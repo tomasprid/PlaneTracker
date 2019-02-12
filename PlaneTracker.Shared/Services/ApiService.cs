@@ -94,11 +94,8 @@ namespace PlaneTracker.Shared.Services
             while (true)
             {
                 var flights = await GetFlightsAsync();
-
-                lock (sync)
-                {
-                    FlightsReceived?.Invoke(this, flights);
-                }
+                
+                FlightsReceived?.Invoke(this, flights);
 
                 await Task.Delay(REFRESH_DELAY);
             }

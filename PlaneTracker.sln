@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaneTracker", "PlaneTracker\PlaneTracker.csproj", "{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaneTracker.Shared", "PlaneTracker.Shared\PlaneTracker.Shared.csproj", "{E9A75F6B-7BC3-459A-9AE9-E62DD0F406BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaneTracker.Shared", "PlaneTracker.Shared\PlaneTracker.Shared.csproj", "{E9A75F6B-7BC3-459A-9AE9-E62DD0F406BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaneTracker.Tests", "PlaneTracker.Tests\PlaneTracker.Tests.csproj", "{68D7D5CC-70DB-42E1-A367-C2F16375F8C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaneTracker.Tests", "PlaneTracker.Tests\PlaneTracker.Tests.csproj", "{68D7D5CC-70DB-42E1-A367-C2F16375F8C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
