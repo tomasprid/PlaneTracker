@@ -15,12 +15,9 @@ namespace PlaneTracker.Tests
         [TestMethod]
         public async Task GetFlights()
         {
-            var restService = new ApiService(username, password);
-
-            var begin = new DateTime(2018, 1, 29, 12, 0, 0, DateTimeKind.Utc);
-            var end = new DateTime(2018, 1, 29, 13, 0, 0, DateTimeKind.Utc);
-
-            var flights = await restService.GetFlightsAsync(begin, end);
+            var restService = new ApiService();
+            
+            var flights = await restService.GetFlightsAsync();
         }
     }
 }

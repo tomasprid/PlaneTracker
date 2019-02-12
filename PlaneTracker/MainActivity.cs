@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
@@ -6,48 +7,50 @@ using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using PlaneTracker.Shared.Models;
 
 namespace PlaneTracker
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : ListActivity
     {
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.activity_main);
 
-            Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += FabOnClick;
-        }
-
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(Resource.Menu.menu_main, menu);
-            return true;
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            int id = item.ItemId;
-            if (id == Resource.Id.action_settings)
-            {
-                return true;
-            }
-
-            return base.OnOptionsItemSelected(item);
-        }
-
-        private void FabOnClick(object sender, EventArgs eventArgs)
-        {
-            View view = (View) sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+            var phoneNumbers = new Flight[] { };
+            this.ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, phoneNumbers);
         }
 	}
+
+    public class FlightAdapter : BaseAdapter<Flight>
+    {
+        private readonly IEnumerable<Flight> flights;
+        private readonly Activity context;
+
+        public override Flight this[int psoition] => flights[position];
+        public override int Count => flights.Count();
+
+        public FlightAdapter(Activity context, IEnumerable<Flight> flights)
+        {
+            this.context = context;
+            this.flights = flights;
+        }
+
+        public override long GetItemId(int position)
+        {
+            return position;
+        }
+
+        public override View GetView(int position, View convertView, ViewGroup parent)
+        {
+            var flight = flights[position];
+            if (convertView == null) 
+                convertView = context.LayoutInflater.Inflate(Resource.Layout.CustomView, null);
+            var text1 = view.FindViewById<TextView>(Resource.Id.Text1);
+            var text2 = view.FindViewById<TextView>(Resource.Id.Text2);
+
+        }
+    }
 }
 
