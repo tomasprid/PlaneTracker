@@ -19,7 +19,7 @@ using PlaneTracker.Shared.Services;
 
 namespace PlaneTracker
 {
-    [Activity(Label = "Plane Tracker",  MainLauncher = true)]
+    [Activity(Label = "@string/app_name",  MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
         ListView listView;
@@ -35,7 +35,6 @@ namespace PlaneTracker
             SetContentView(Resource.Layout.main_layout);
 
             ApiService.Instance.StartPooling();
-            SupportActionBar.Title = "Plane Tracker";
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.SetDisplayUseLogoEnabled(true);
             SupportActionBar.SetLogo(GetDrawable(Resource.Drawable.ic_action_icon));

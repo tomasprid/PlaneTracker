@@ -1,0 +1,14 @@
+<resources>
+    <string name="on_ground">Na zemi</string>
+    <string name="in_air">Ve vzduchu</string>
+    <string name="last_contact">Poslední kontak</string>
+    <string name="meters">metrů</string>
+    <string name="miles">mil</string>
+    <string name="not_avalible">Nedostupné</string>
+    <string name="map">Mapa</string>
+    <string name="details">Informace</string>
+    <string name="state">Stav</string>
+    <string name="origin_country">Země původu</string>
+    <string name="altitude">Výška letu</string>
+    <string name="velocity">Rychlost vůči zemi</string>
+</resources>
