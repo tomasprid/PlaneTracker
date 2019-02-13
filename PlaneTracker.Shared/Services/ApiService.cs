@@ -23,12 +23,13 @@ namespace PlaneTracker.Shared.Services
 
         private const string API_URL = "https://opensky-network.org/api/";
         private const string STATES_ALL = "states/all";
-        private const float LATITUDE_MIN = 48.73881f;
-        private const float LATITUDE_MAX = 51.00369f;
-        private const float LONGITUDE_MIN = 12.19499f;
-        private const float LONGITUDE_MAX = 18.76458f;
         private const int REFRESH_DELAY = 15000;
 
+        public const float LATITUDE_MIN = 48.73881f;
+        public const float LATITUDE_MAX = 51.00369f;
+        public const float LONGITUDE_MIN = 12.19499f;
+        public const float LONGITUDE_MAX = 18.76458f;
+        
         private readonly RestClient restClient;
         private readonly System.Timers.Timer poolTimer;
         public FlightCollection Flights { get; }

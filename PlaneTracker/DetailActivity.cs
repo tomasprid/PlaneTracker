@@ -5,6 +5,8 @@ using System.Text;
 
 
 using Android.Content;
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -15,15 +17,21 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using PlaneTracker.Shared.Services;
+using static Android.Gms.Maps.GoogleMap;
 using static Android.Views.View;
 
 namespace PlaneTracker
 {
     [Android.App.Activity()]
-    public class DetailActivity : AppCompatActivity
+    public class DetailActivity : AppCompatActivity, IOnMapReadyCallback
     {
+        private const double ZOOM_LVL1_M = 591657550.5;
+
         private string ICAO24;
-        private TabFragment detailFragment, mapFragment;
+        private TabFragment detailFragment;
+        private SupportMapFragment mapFragment;
+        private GoogleMap map;
+        private GroundOverlay planeOverlay;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -44,11 +52,11 @@ namespace PlaneTracker
             var adapter = new TabAdapter(SupportFragmentManager);
 
             detailFragment = new TabFragment(Resource.Layout.detail_layout);
-            mapFragment = new TabFragment(Resource.Layout.map_layout);
-
             detailFragment.Created += (sender, e) => UpdateDetailPage();
-            mapFragment.Created += (sender, e) => UpdateMapPage();
 
+            mapFragment = SupportMapFragment.NewInstance();
+            mapFragment.GetMapAsync(this);
+            
             adapter.AddFragment(detailFragment , "Informace");
             adapter.AddFragment(mapFragment, "Mapa");
            
@@ -70,6 +78,15 @@ namespace PlaneTracker
             if (ApiService.Instance.Flights.Contains(ICAO24))
             {
                 var flight = ApiService.Instance.Flights[ICAO24];
+
+                if (flight.Longitude != null && flight.Latitude != null && map != null)
+                {
+                    BitmapDescriptor image = BitmapDescriptorFactory.FromResource(Resource.Drawable.black_plane);
+                    GroundOverlayOptions groundOverlayOptions = new GroundOverlayOptions()
+                        .Position(new LatLng((double)flight.Latitude.Value, (double)flight.Longitude.Value), 5000)
+                        .InvokeImage(image);
+                    planeOverlay =  map.AddGroundOverlay(groundOverlayOptions);
+                }
             }
         }
 
@@ -92,6 +109,27 @@ namespace PlaneTracker
             ApiService.Instance.Flights.Updated -= Flights_Updated;
             OnBackPressed();
             return true;
+        }
+
+        public void OnMapReady(GoogleMap googleMap)
+        {
+            map = googleMap;
+            map.CameraChange += Map_CameraChange;
+            var max = new LatLng(ApiService.LATITUDE_MAX, ApiService.LONGITUDE_MAX);
+            var min = new LatLng(ApiService.LATITUDE_MIN, ApiService.LONGITUDE_MIN);
+            var bounds = new LatLngBounds(min, max);
+            map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bounds, 0));
+            map.SetLatLngBoundsForCameraTarget(bounds);
+            map.SetMaxZoomPreference(50);
+            map.SetMinZoomPreference(map.CameraPosition.Zoom);
+
+            UpdateMapPage();
+        }
+
+        private void Map_CameraChange(object sender, CameraChangeEventArgs e)
+        {
+            ///TODO:
+            planeOverlay?.SetDimensions((float)((((e.Position.Zoom - 50) * -1) * ZOOM_LVL1_M) / 1000000));
         }
     }
 }

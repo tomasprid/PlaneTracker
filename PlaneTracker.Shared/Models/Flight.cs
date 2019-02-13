@@ -13,6 +13,8 @@ namespace PlaneTracker.Shared.Models
         private const int CALLSIGN_ID = 1;
         private const int ORIGIN_COUNTRY_ID = 2;
         private const int LAST_CONTACT_ID = 4;
+        private const int LONGITUDE_ID = 5;
+        private const int LATITUDE_ID = 6;
         private const int BARO_ALTITUDE = 7;
         private const int ON_GORUND_ID = 8;
         private const int VELOCITY_ID = 9;
@@ -26,6 +28,8 @@ namespace PlaneTracker.Shared.Models
         public string OriginCountry { get; set; }
         public DateTime? LastContact { get; set; }
         public decimal? Altitude { get; set; }
+        public decimal? Longitude { get; set; }
+        public decimal? Latitude { get; set; }
         public bool OnGround { get; set; }
         public decimal? Velocity { get; set; }
         public string Squawk { get; set; }
@@ -45,6 +49,8 @@ namespace PlaneTracker.Shared.Models
         public void Update(Flight flight)
         {
             LastContact = flight.LastContact;
+            Latitude = flight.Latitude;
+            Longitude = flight.Longitude;
             Altitude = flight.Altitude;
             OnGround = flight.OnGround;
             Velocity = flight.Velocity;
@@ -112,6 +118,8 @@ namespace PlaneTracker.Shared.Models
                 Callsign = data[CALLSIGN_ID],
                 OriginCountry = data[ORIGIN_COUNTRY_ID],
                 LastContact = GetDateTime(data[LAST_CONTACT_ID]),
+                Longitude = TryParseDecimal(data[LONGITUDE_ID]),
+                Latitude = TryParseDecimal(data[LATITUDE_ID]),
                 Altitude = TryParseDecimal(data[BARO_ALTITUDE], data[GEO_ALTITUDE]),
                 OnGround = Convert.ToBoolean(data[ON_GORUND_ID]),
                 Velocity = TryParseDecimal(data[VELOCITY_ID]),
