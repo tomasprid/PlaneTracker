@@ -171,6 +171,9 @@ namespace PlaneTracker
             planeOverlay?.SetDimensions(GetPlaneDimension((float)planeOverlay.Position.Latitude ,e.Position.Zoom));
         }
 
+        /// <summary>
+        /// Get dimension for overley depandent on zoom
+        /// </summary>
         private float GetPlaneDimension(float latitude, float zoom)
         {
             return (float)(156543.03392 * System.Math.Cos(latitude * System.Math.PI / 180) / System.Math.Pow(2, zoom)) * 30;

@@ -28,10 +28,16 @@ namespace PlaneTracker.Shared.Models
         public string Callsign { get; set; }
         public string OriginCountry { get; set; }
         public DateTime? LastContact { get; set; }
+        /// <summary>
+        /// In meters
+        /// </summary>
         public decimal? Altitude { get; set; }
         public decimal? Longitude { get; set; }
         public decimal? Latitude { get; set; }
         public bool OnGround { get; set; }
+        /// <summary>
+        /// In m/s
+        /// </summary>
         public decimal? Velocity { get; set; }
         public string Squawk { get; set; }
         public decimal? Direction { get; set; }
