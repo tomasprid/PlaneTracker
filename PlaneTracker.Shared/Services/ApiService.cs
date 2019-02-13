@@ -11,6 +11,10 @@ namespace PlaneTracker.Shared.Services
 {
     public class ApiService
     {
+        private static ApiService instance;
+
+        public static ApiService Instance => instance ?? (instance = new ApiService());
+
         private class StateResponse
         {
             public DateTime Time { get; set; }
@@ -30,13 +34,15 @@ namespace PlaneTracker.Shared.Services
 
         private CancellationToken poolingCancellationToken;
 
-        public event EventHandler<IEnumerable<Flight>> FlightsReceived;
+
+        public FlightCollection Flights { get; }
 
         public bool IsPoolingData { get; private set; }
        
-        public ApiService()
+        private ApiService()
         {
             restClient = new RestClient(API_URL);
+            Flights = new FlightCollection();
         }
 
         public void StartPooling()
@@ -94,9 +100,9 @@ namespace PlaneTracker.Shared.Services
             while (true)
             {
                 var flights = await GetFlightsAsync();
-                
-                FlightsReceived?.Invoke(this, flights);
 
+                Flights.Update(flights);
+                
                 await Task.Delay(REFRESH_DELAY);
             }
         }

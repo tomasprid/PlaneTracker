@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Globalization;
 
 namespace PlaneTracker.Shared.Models
 {
@@ -17,6 +18,8 @@ namespace PlaneTracker.Shared.Models
         private const int VELOCITY_ID = 9;
         private const int GEO_ALTITUDE = 13;
         private const int SQUAWK_ID = 14;
+
+        public event EventHandler Updated;
 
         public string ICAO24 { get; set; }
         public string Callsign { get; set; }
@@ -35,6 +38,10 @@ namespace PlaneTracker.Shared.Models
             return ICAO24.GetHashCode();
         }
 
+        /// <summary>
+        /// Update current Flight with newly received object
+        /// </summary>
+        /// <param name="flight">New object data</param>
         public void Update(Flight flight)
         {
             LastContact = flight.LastContact;
@@ -42,6 +49,54 @@ namespace PlaneTracker.Shared.Models
             OnGround = flight.OnGround;
             Velocity = flight.Velocity;
             Squawk = flight.Squawk;
+
+            Updated?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>Format altitude for current region info</summary>
+        /// <param name="shortPostFix">Lenght of postfix e.g. for metric system short "m" long "meters""  </param>
+        /// <returns>Formated altitude in meters or miles</returns>
+        public string GetAltitude(bool shortPostFix = true)
+        {
+            if (Altitude != null)
+            {
+                var regionInfo = RegionInfo.CurrentRegion;
+
+                string postfix;
+                if (regionInfo.IsMetric)
+                {
+                    postfix = shortPostFix ? "m" : "metrů";
+                    return $"{Altitude} {postfix}";
+                }
+                else
+                {
+                    postfix = shortPostFix ? "mi" : "mil";
+                    return $"{Altitude * 0.3048m} {postfix}";
+                }
+            }
+            return "Not Avalible";
+        }
+
+        /// <summary>
+        /// Format velocity for current region info
+        /// </summary>
+        /// <returns>Formated velocity in km/h or kt</returns>
+        public string GetVelocity()
+        {
+            if (Velocity != null)
+            {
+                var regionInfo = RegionInfo.CurrentRegion;
+                
+                if (regionInfo.IsMetric)
+                {
+                    return $"{Velocity * 3.6m} km/h";
+                }
+                else
+                {
+                    return $"{Altitude * 1.943844m} kt";
+                }
+            }
+            return "Not Avalible";
         }
 
         /// <summary>
@@ -83,6 +138,9 @@ namespace PlaneTracker.Shared.Models
             return null;
         }
 
+        /// <summary>
+        /// Parse string unix value to DateTime
+        /// </summary>
         private static DateTime? GetDateTime(string value)
         {
             double unixTimeStamp;
