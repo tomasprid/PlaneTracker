@@ -30,47 +30,34 @@ namespace PlaneTracker.Shared.Services
         private const int REFRESH_DELAY = 15000;
 
         private readonly RestClient restClient;
-        private readonly object sync = new object();
-
-        private CancellationToken poolingCancellationToken;
-
-
+        private readonly System.Timers.Timer poolTimer;
         public FlightCollection Flights { get; }
-
-        public bool IsPoolingData { get; private set; }
        
         private ApiService()
         {
             restClient = new RestClient(API_URL);
             Flights = new FlightCollection();
+            poolTimer = new System.Timers.Timer(REFRESH_DELAY);
+            poolTimer.AutoReset = true;
+            poolTimer.Elapsed += PoolTimer_Elapsed;
         }
 
         public void StartPooling()
         {
-            if (!IsPoolingData)
-            {
-                poolingCancellationToken = new CancellationToken();
-                Task.Run(PoolingTask,poolingCancellationToken);
-            }
-            else throw new Exception("Already pooling.");
+            Task.Run(Pool);
+            poolTimer.Start();
         }
 
         public void StopPooling()
         {
-            if (IsPoolingData)
-            {
-                try
-                {
-                    poolingCancellationToken.ThrowIfCancellationRequested();
-                }
-                catch (OperationCanceledException)
-                {
-                    IsPoolingData = false;
-                }
-            }
-            else throw new Exception("Pooling is not running");
+            poolTimer.Stop();
         }
-        
+
+        private void PoolTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Task.Run(Pool);
+        }
+
         public async Task<IEnumerable<Flight>> GetFlightsAsync()
         {
             var request = new RestRequest(STATES_ALL);
@@ -95,16 +82,11 @@ namespace PlaneTracker.Shared.Services
             return flightList;
         }
 
-        private async Task PoolingTask()
+        private async Task Pool()
         {
-            while (true)
-            {
-                var flights = await GetFlightsAsync();
+            var flights = await GetFlightsAsync();
 
-                Flights.Update(flights);
-                
-                await Task.Delay(REFRESH_DELAY);
-            }
+            Flights.Update(flights);
         }
     }
 }

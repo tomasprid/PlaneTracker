@@ -46,11 +46,13 @@ namespace PlaneTracker
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var intent = new Intent(this, typeof(DetailActivity));
+            if (e.Position < ApiService.Instance.Flights.Count)
+            {
+                var intent = new Intent(this, typeof(DetailActivity));
+                intent.PutExtra("flight", ApiService.Instance.Flights[e.Position].ICAO24);
 
-            intent.PutExtra("flight", ApiService.Instance.Flights[e.Position].ICAO24);
-
-            StartActivity(intent);
+                StartActivity(intent);
+            }
         }
     }
 }
