@@ -17,8 +17,6 @@ namespace PlaneTracker
 {
     public class FlightAdapter : BaseAdapter<Flight>
     {
-        private static readonly ColorStateList HighlightColor = ColorStateList.ValueOf(Android.Graphics.Color.Red);
-
         private readonly Activity context;
 
         public override Flight this[int position] => ApiService.Instance.Flights[position];
@@ -27,15 +25,15 @@ namespace PlaneTracker
         public FlightAdapter(Activity context)
         {
             this.context = context;
-            ApiService.Instance.Flights.Updated += Flights_Updated;
+            ApiService.Instance.Flights.Changed += Flights_Changed;
         }
 
         ~FlightAdapter()
         {
-            ApiService.Instance.Flights.Updated -= Flights_Updated;
+            ApiService.Instance.Flights.Changed -= Flights_Changed;
         }
 
-        private void Flights_Updated(object sender, EventArgs e)
+        private void Flights_Changed(object sender, EventArgs e)
         {
             context.RunOnUiThread(() => NotifyDataSetChanged());
         }
@@ -57,24 +55,24 @@ namespace PlaneTracker
             if (flight.Callsign.StartsWith("OK") ||
                 flight.Callsign.StartsWith("OM"))
             {
-                text1.SetTextColor(HighlightColor);
+                text1.SetTextColor(context.GetColorStateList(Resource.Color.colorHighlight));
             }
 
             text1.Text = flight.Callsign;
 
-            var detail = new StringBuilder();
+            var detail = new List<string>();
 
             if (flight.OnGround)
-                detail.Append("Na zemi");
+                detail.Add(context.GetString(Resource.String.on_ground));
             else
-                detail.Append("ve vzduchu");
+                detail.Add(context.GetString(Resource.String.in_air));
 
-            detail.AppendFormat(" ,{0}", flight.GetAltitude());
+            detail.Add(flight.GetAltitude());
             
             if (flight.LastContact != null)
-                detail.Append($", poslední kontakt {flight.LastContact.Value.ToString("hh:mm")}");
+                detail.Add($"{context.GetString(Resource.String.last_contact)} {flight.LastContact.Value.ToString("hh:mm")}");
 
-            text2.Text = detail.ToString();
+            text2.Text = string.Join(", ", detail);
 
             return convertView;
         }

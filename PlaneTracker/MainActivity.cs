@@ -22,6 +22,8 @@ namespace PlaneTracker
     [Activity(Label = "Plane Tracker",  MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        ListView listView;
+
         public MainActivity()
         {
         }
@@ -33,15 +35,15 @@ namespace PlaneTracker
             SetContentView(Resource.Layout.main_layout);
 
             ApiService.Instance.StartPooling();
-
             SupportActionBar.Title = "Plane Tracker";
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.SetDisplayUseLogoEnabled(true);
-            SupportActionBar.SetLogo(GetDrawable(Resource.Drawable.black_plane));
-
-            var listView = FindViewById<ListView>(Resource.Id.mainListView);
+            SupportActionBar.SetLogo(GetDrawable(Resource.Drawable.ic_action_icon));
+            
+            listView = FindViewById<ListView>(Resource.Id.mainListView);
             listView.Adapter =  new FlightAdapter(this);
-            listView.ItemClick += ListView_ItemClick;            
+            listView.ItemClick += ListView_ItemClick;      
+            
         }
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)

@@ -23,6 +23,7 @@ namespace PlaneTracker.Shared.Models
         private readonly Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
 
         public event EventHandler Updated;
+        public event EventHandler Changed;
 
         public Flight this[string ICAO24] => flights[ICAO24];
         public Flight this[int i] => flights.Values.ToArray()[i];
@@ -47,11 +48,13 @@ namespace PlaneTracker.Shared.Models
                     flights[newFlight.ICAO24].Update(newFlight);
                 else
                     flights.Add(newFlight.ICAO24, newFlight);
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             foreach (var remove in removed)
             {
                 flights.Remove(remove);
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             Updated?.Invoke(this, EventArgs.Empty);

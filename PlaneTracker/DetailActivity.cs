@@ -25,8 +25,6 @@ namespace PlaneTracker
     [Android.App.Activity()]
     public class DetailActivity : AppCompatActivity, IOnMapReadyCallback
     {
-        private const double ZOOM_LVL1_M = 591657550.5;
-
         private string ICAO24;
         private DetailFragment detailFragment;
         private SupportMapFragment mapFragment;
@@ -39,12 +37,13 @@ namespace PlaneTracker
             
             SetContentView(Resource.Layout.tab_layout);
             ICAO24 = Intent.GetStringExtra("flight");
+            var flight = ApiService.Instance.Flights[ICAO24];
 
-            SupportActionBar.Title = ICAO24;
+            SupportActionBar.Title = flight.Callsign;
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayUseLogoEnabled(true);
-            SupportActionBar.SetLogo(GetDrawable(Resource.Drawable.black_plane));
+            SupportActionBar.SetLogo(GetDrawable(Resource.Drawable.ic_action_icon));
 
             var tabLayout = FindViewById<TabLayout>(Resource.Id.tabLayout);
             var viewPager = FindViewById<ViewPager>(Resource.Id.viewPager);
@@ -57,8 +56,8 @@ namespace PlaneTracker
             mapFragment.GetMapAsync(this);
             mapFragment.RetainInstance = true;
 
-            adapter.AddFragment(detailFragment , "Informace");
-            adapter.AddFragment(mapFragment, "Mapa");
+            adapter.AddFragment(detailFragment , GetString(Resource.String.details));
+            adapter.AddFragment(mapFragment, GetString(Resource.String.map));
            
             viewPager.Adapter = adapter;
             
@@ -81,11 +80,19 @@ namespace PlaneTracker
 
                 if (flight.Longitude != null && flight.Latitude != null && map != null)
                 {
-                    BitmapDescriptor image = BitmapDescriptorFactory.FromResource(Resource.Drawable.black_plane);
-                    GroundOverlayOptions groundOverlayOptions = new GroundOverlayOptions()
-                        .Position(new LatLng((double)flight.Latitude.Value, (double)flight.Longitude.Value), 5000)
-                        .InvokeImage(image);
-                    planeOverlay =  map.AddGroundOverlay(groundOverlayOptions);
+                    if (planeOverlay == null)
+                    {
+                        BitmapDescriptor image = BitmapDescriptorFactory.FromResource(Resource.Drawable.black_plane);
+                        GroundOverlayOptions groundOverlayOptions = new GroundOverlayOptions()
+                            .Position(new LatLng((double)flight.Latitude.Value, (double)flight.Longitude.Value), GetPlaneDimension((float)flight.Latitude.Value, map.CameraPosition.Zoom))
+                            .InvokeImage(image);
+
+                        planeOverlay = map.AddGroundOverlay(groundOverlayOptions);
+                    }
+                    else
+                    {
+                        planeOverlay.Position = new LatLng((double)flight.Latitude.Value, (double)flight.Longitude.Value);
+                    }
                 }
             }
         }
@@ -95,11 +102,18 @@ namespace PlaneTracker
             if (ApiService.Instance.Flights.Contains(ICAO24))
             {
                 var flight = ApiService.Instance.Flights[ICAO24];
+
                 detailFragment.View.FindViewById<TextView>(Resource.Id.callsignLabel).Text = flight.Callsign;
-                detailFragment.View.FindViewById<TextView>(Resource.Id.stateLabel).Text = flight.OnGround ? "Na zemi" : "Letí";
+                detailFragment.View.FindViewById<TextView>(Resource.Id.stateLabel).Text = flight.OnGround ? GetString(Resource.String.on_ground) : GetString(Resource.String.in_air);
                 detailFragment.View.FindViewById<TextView>(Resource.Id.countryLabel).Text = flight.OriginCountry;
-                detailFragment.View.FindViewById<TextView>(Resource.Id.altitudeLabel).Text = flight.GetAltitude(false);
-                detailFragment.View.FindViewById<TextView>(Resource.Id.speedLabel).Text = flight.GetVelocity();
+                var altitude = flight.GetAltitude(GetString(Resource.String.meters, Resource.String.miles));
+                if (string.IsNullOrEmpty(altitude))
+                    altitude = GetString(Resource.String.not_avalible);
+                detailFragment.View.FindViewById<TextView>(Resource.Id.altitudeLabel).Text = altitude;
+                var velocity = flight.GetVelocity();
+                if (string.IsNullOrEmpty(velocity))
+                    velocity = GetString(Resource.String.not_avalible);
+                detailFragment.View.FindViewById<TextView>(Resource.Id.speedLabel).Text = velocity;
                 detailFragment.View.FindViewById<TextView>(Resource.Id.squawkLabel).Text = flight.Squawk;
             }
         }
@@ -128,8 +142,12 @@ namespace PlaneTracker
 
         private void Map_CameraChange(object sender, CameraChangeEventArgs e)
         {
-            ///TODO:
-            planeOverlay?.SetDimensions((float)((((e.Position.Zoom - 50) * -1) * ZOOM_LVL1_M) / 1000000));
+            planeOverlay?.SetDimensions(GetPlaneDimension((float)planeOverlay.Position.Latitude ,e.Position.Zoom));
+        }
+
+        private float GetPlaneDimension(float latitude, float zoom)
+        {
+            return (float)(156543.03392 * System.Math.Cos(latitude * System.Math.PI / 180) / System.Math.Pow(2, zoom)) * 30;
         }
     }
 }

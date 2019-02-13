@@ -1391,6 +1391,9 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f090051
 			public const int colorAccent = 2131296337;
 			
+			// aapt resource value: 0x7f090052
+			public const int colorHighlight = 2131296338;
+			
 			// aapt resource value: 0x7f09004f
 			public const int colorPrimary = 2131296335;
 			
@@ -1489,9 +1492,6 @@ namespace PlaneTracker
 			
 			// aapt resource value: 0x7f090022
 			public const int highlighted_text_material_light = 2131296290;
-			
-			// aapt resource value: 0x7f090052
-			public const int ic_launcher_background = 2131296338;
 			
 			// aapt resource value: 0x7f090023
 			public const int material_blue_grey_800 = 2131296291;
@@ -2350,26 +2350,26 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f020080
-			public const int avd_hide_password_1 = 2130837632;
-			
 			// aapt resource value: 0x7f020081
-			public const int avd_hide_password_2 = 2130837633;
+			public const int avd_hide_password_1 = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int avd_hide_password_3 = 2130837634;
+			public const int avd_hide_password_2 = 2130837634;
+			
+			// aapt resource value: 0x7f020083
+			public const int avd_hide_password_3 = 2130837635;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020083
-			public const int avd_show_password_1 = 2130837635;
-			
 			// aapt resource value: 0x7f020084
-			public const int avd_show_password_2 = 2130837636;
+			public const int avd_show_password_1 = 2130837636;
 			
 			// aapt resource value: 0x7f020085
-			public const int avd_show_password_3 = 2130837637;
+			public const int avd_show_password_2 = 2130837637;
+			
+			// aapt resource value: 0x7f020086
+			public const int avd_show_password_3 = 2130837638;
 			
 			// aapt resource value: 0x7f020055
 			public const int black_plane = 2130837589;
@@ -2456,49 +2456,52 @@ namespace PlaneTracker
 			public const int googleg_standard_color_18 = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int navigation_empty_icon = 2130837617;
+			public const int ic_action_icon = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int notification_action_background = 2130837618;
+			public const int navigation_empty_icon = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int notification_bg = 2130837619;
+			public const int notification_action_background = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int notification_bg_low = 2130837620;
+			public const int notification_bg = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int notification_bg_low_normal = 2130837621;
+			public const int notification_bg_low = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int notification_bg_low_pressed = 2130837622;
+			public const int notification_bg_low_normal = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int notification_bg_normal = 2130837623;
+			public const int notification_bg_low_pressed = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int notification_bg_normal_pressed = 2130837624;
+			public const int notification_bg_normal = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int notification_icon_background = 2130837625;
-			
-			// aapt resource value: 0x7f02007e
-			public const int notification_template_icon_bg = 2130837630;
-			
-			// aapt resource value: 0x7f02007f
-			public const int notification_template_icon_low_bg = 2130837631;
+			public const int notification_bg_normal_pressed = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int notification_tile_bg = 2130837626;
+			public const int notification_icon_background = 2130837626;
+			
+			// aapt resource value: 0x7f02007f
+			public const int notification_template_icon_bg = 2130837631;
+			
+			// aapt resource value: 0x7f020080
+			public const int notification_template_icon_low_bg = 2130837632;
 			
 			// aapt resource value: 0x7f02007b
-			public const int notify_panel_notification_icon_bg = 2130837627;
+			public const int notification_tile_bg = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int tooltip_frame_dark = 2130837628;
+			public const int notify_panel_notification_icon_bg = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int tooltip_frame_light = 2130837629;
+			public const int tooltip_frame_dark = 2130837629;
+			
+			// aapt resource value: 0x7f02007e
+			public const int tooltip_frame_light = 2130837630;
 			
 			static Drawable()
 			{
@@ -2581,9 +2584,6 @@ namespace PlaneTracker
 			
 			// aapt resource value: 0x7f0b0066
 			public const int action_mode_close_button = 2131427430;
-			
-			// aapt resource value: 0x7f0b00c3
-			public const int action_settings = 2131427523;
 			
 			// aapt resource value: 0x7f0b00ac
 			public const int action_text = 2131427500;
@@ -2807,14 +2807,14 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f0b00a9
 			public const int mainListView = 2131427497;
 			
-			// aapt resource value: 0x7f0b00c2
-			public const int masked = 2131427522;
+			// aapt resource value: 0x7f0b00c1
+			public const int masked = 2131427521;
 			
 			// aapt resource value: 0x7f0b00b0
 			public const int media_actions = 2131427504;
 			
-			// aapt resource value: 0x7f0b00c0
-			public const int message = 2131427520;
+			// aapt resource value: 0x7f0b00bf
+			public const int message = 2131427519;
 			
 			// aapt resource value: 0x7f0b003c
 			public const int middle = 2131427388;
@@ -3047,9 +3047,6 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f0b0079
 			public const int title_template = 2131427449;
 			
-			// aapt resource value: 0x7f0b00bf
-			public const int toolbar = 2131427519;
-			
 			// aapt resource value: 0x7f0b0049
 			public const int top = 2131427401;
 			
@@ -3089,8 +3086,8 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f0b0016
 			public const int view_offset_helper = 2131427350;
 			
-			// aapt resource value: 0x7f0b00c1
-			public const int visible = 2131427521;
+			// aapt resource value: 0x7f0b00c0
+			public const int visible = 2131427520;
 			
 			// aapt resource value: 0x7f0b0026
 			public const int wide = 2131427366;
@@ -3350,10 +3347,7 @@ namespace PlaneTracker
 			public const int tab_layout = 2130968638;
 			
 			// aapt resource value: 0x7f04003f
-			public const int toolbar = 2130968639;
-			
-			// aapt resource value: 0x7f040040
-			public const int tooltip = 2130968640;
+			public const int tooltip = 2130968639;
 			
 			static Layout()
 			{
@@ -3365,33 +3359,11 @@ namespace PlaneTracker
 			}
 		}
 		
-		public partial class Menu
-		{
-			
-			// aapt resource value: 0x7f0e0000
-			public const int menu_main = 2131623936;
-			
-			static Menu()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Menu()
-			{
-			}
-		}
-		
 		public partial class Mipmap
 		{
 			
 			// aapt resource value: 0x7f030000
 			public const int ic_launcher = 2130903040;
-			
-			// aapt resource value: 0x7f030001
-			public const int ic_launcher_foreground = 2130903041;
-			
-			// aapt resource value: 0x7f030002
-			public const int ic_launcher_round = 2130903042;
 			
 			static Mipmap()
 			{
@@ -3493,8 +3465,8 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f080021
 			public const int abc_toolbar_collapse_description = 2131230753;
 			
-			// aapt resource value: 0x7f080039
-			public const int action_settings = 2131230777;
+			// aapt resource value: 0x7f080043
+			public const int altitude = 2131230787;
 			
 			// aapt resource value: 0x7f080038
 			public const int app_name = 2131230776;
@@ -3559,6 +3531,33 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f080010
 			public const int common_signin_button_text_long = 2131230736;
 			
+			// aapt resource value: 0x7f080040
+			public const int details = 2131230784;
+			
+			// aapt resource value: 0x7f08003a
+			public const int in_air = 2131230778;
+			
+			// aapt resource value: 0x7f08003b
+			public const int last_contact = 2131230779;
+			
+			// aapt resource value: 0x7f08003f
+			public const int map = 2131230783;
+			
+			// aapt resource value: 0x7f08003c
+			public const int meters = 2131230780;
+			
+			// aapt resource value: 0x7f08003d
+			public const int miles = 2131230781;
+			
+			// aapt resource value: 0x7f08003e
+			public const int not_avalible = 2131230782;
+			
+			// aapt resource value: 0x7f080039
+			public const int on_ground = 2131230777;
+			
+			// aapt resource value: 0x7f080042
+			public const int origin_country = 2131230786;
+			
 			// aapt resource value: 0x7f080032
 			public const int password_toggle_content_description = 2131230770;
 			
@@ -3577,8 +3576,14 @@ namespace PlaneTracker
 			// aapt resource value: 0x7f080022
 			public const int search_menu_title = 2131230754;
 			
+			// aapt resource value: 0x7f080041
+			public const int state = 2131230785;
+			
 			// aapt resource value: 0x7f080037
 			public const int status_bar_notification_info_overflow = 2131230775;
+			
+			// aapt resource value: 0x7f080044
+			public const int velocity = 2131230788;
 			
 			static String()
 			{
@@ -4105,6 +4110,9 @@ namespace PlaneTracker
 			
 			// aapt resource value: 0x7f0c0161
 			public const int Base_Widget_Design_TabLayout = 2131493217;
+			
+			// aapt resource value: 0x7f0c0182
+			public const int CustomActionBarTabs = 2131493250;
 			
 			// aapt resource value: 0x7f0c001e
 			public const int Platform_AppCompat = 2131492894;

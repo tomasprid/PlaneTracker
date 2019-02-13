@@ -62,7 +62,7 @@ namespace PlaneTracker.Shared.Models
         /// <summary>Format altitude for current region info</summary>
         /// <param name="shortPostFix">Lenght of postfix e.g. for metric system short "m" long "meters""  </param>
         /// <returns>Formated altitude in meters or miles</returns>
-        public string GetAltitude(bool shortPostFix = true)
+        public string GetAltitude(string meters = null, string miles = null)
         {
             if (Altitude != null)
             {
@@ -71,16 +71,18 @@ namespace PlaneTracker.Shared.Models
                 string postfix;
                 if (regionInfo.IsMetric)
                 {
-                    postfix = shortPostFix ? "m" : "metrů";
+                    postfix = string.IsNullOrEmpty(meters) ? 
+                        "m" : meters;
                     return $"{Altitude} {postfix}";
                 }
                 else
                 {
-                    postfix = shortPostFix ? "mi" : "mil";
-                    return $"{Altitude * 0.3048m} {postfix}";
+                    postfix = string.IsNullOrEmpty(miles) ? 
+                        "mi" : miles;
+                    return $"{Math.Round((decimal)Altitude * 0.3048m,2)} {postfix}";
                 }
             }
-            return "Not Avalible";
+            return null;
         }
 
         /// <summary>
@@ -95,14 +97,14 @@ namespace PlaneTracker.Shared.Models
                 
                 if (regionInfo.IsMetric)
                 {
-                    return $"{Velocity * 3.6m} km/h";
+                    return $"{Math.Round((decimal)Velocity * 3.6m,2)} km/h";
                 }
                 else
                 {
-                    return $"{Altitude * 1.943844m} kt";
+                    return $"{Math.Round((decimal)Altitude * 1.943844m, 2)} kt";
                 }
             }
-            return "Not Avalible";
+            return null;
         }
 
         /// <summary>

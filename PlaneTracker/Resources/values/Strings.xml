@@ -1,4 +1,15 @@
 <resources>
-    <string name="app_name">PlaneTracker</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Plane Tracker</string>
+    <string name="on_ground">On ground</string>
+    <string name="in_air">In air</string>
+    <string name="last_contact">Last contact</string>
+    <string name="meters">meters</string>
+    <string name="miles">miles</string>
+    <string name="not_avalible">Not avalible</string>
+    <string name="map">Map</string>
+    <string name="details">Details</string>
+    <string name="state">State</string>
+    <string name="origin_country">Origin country</string>
+    <string name="altitude">Altitude</string>
+    <string name="velocity">Velocity</string>
 </resources>

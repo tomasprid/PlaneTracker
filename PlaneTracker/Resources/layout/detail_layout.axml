@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 	<TextView
 		android:id="@+id/callsignLabel"
-		android:text="888888"
+		android:textStyle="bold"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:padding="24dp"
@@ -19,7 +19,8 @@
 		android:paddingRight="24dp"
 		android:paddingLeft="24dp">
 			<TextView
-				android:text="Stav"
+				android:text="@string/state"
+				android:textStyle="bold"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="fill"
@@ -27,7 +28,8 @@
 				android:layout_column="0"
 				android:layout_row="0"/>
 			<TextView
-				android:text="Země původu"
+				android:text="@string/origin_country"
+				android:textStyle="bold"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="fill"
@@ -35,7 +37,8 @@
 				android:layout_column="0"
 				android:layout_row="1"/>
 			<TextView
-				android:text="Výška letu"
+				android:text="@string/altitude"
+				android:textStyle="bold"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 		        android:gravity="fill"
@@ -43,7 +46,8 @@
 				android:layout_column="0"
 				android:layout_row="2"/>
 			<TextView
-				android:text="Rychlost vůči zemi"
+				android:text="@string/velocity"
+				android:textStyle="bold"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="fill"
@@ -52,6 +56,7 @@
 				android:layout_row="3"/>
 			<TextView
 				android:text="Squawk"
+				android:textStyle="bold"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="fill"
