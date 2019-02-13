@@ -28,7 +28,7 @@ namespace PlaneTracker
         private const double ZOOM_LVL1_M = 591657550.5;
 
         private string ICAO24;
-        private TabFragment detailFragment;
+        private DetailFragment detailFragment;
         private SupportMapFragment mapFragment;
         private GoogleMap map;
         private GroundOverlay planeOverlay;
@@ -50,13 +50,13 @@ namespace PlaneTracker
             var viewPager = FindViewById<ViewPager>(Resource.Id.viewPager);
 
             var adapter = new TabAdapter(SupportFragmentManager);
-
-            detailFragment = new TabFragment(Resource.Layout.detail_layout);
+            detailFragment = new DetailFragment();
             detailFragment.Created += (sender, e) => UpdateDetailPage();
 
             mapFragment = SupportMapFragment.NewInstance();
             mapFragment.GetMapAsync(this);
-            
+            mapFragment.RetainInstance = true;
+
             adapter.AddFragment(detailFragment , "Informace");
             adapter.AddFragment(mapFragment, "Mapa");
            

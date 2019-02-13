@@ -12,20 +12,18 @@ using Android.Widget;
 
 namespace PlaneTracker
 {
-    public class TabFragment : Android.Support.V4.App.Fragment
+    public class DetailFragment : Android.Support.V4.App.Fragment
     {
-        private readonly int layout;
-
         public event EventHandler Created;
 
-        public TabFragment(int layout)
+        public DetailFragment()
         {
-            this.layout = layout;
+            RetainInstance = true;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            return inflater.Inflate(layout, container, false);
+            return inflater.Inflate(Resource.Layout.detail_layout, container, false);
         }
 
         public override void OnViewCreated(View view, Bundle savedInstanceState)
