@@ -7,6 +7,7 @@ using System.Text;
 using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -68,8 +69,11 @@ namespace PlaneTracker
 
         private void Flights_Updated(object sender, EventArgs e)
         {
-            UpdateDetailPage();
-            UpdateMapPage();
+            RunOnUiThread(() =>
+            {
+                UpdateDetailPage();
+                UpdateMapPage();
+            });
         }
 
         private void UpdateMapPage()
@@ -80,21 +84,43 @@ namespace PlaneTracker
 
                 if (flight.Longitude != null && flight.Latitude != null && map != null)
                 {
+                    var position = new LatLng((double)flight.Latitude.Value, (double)flight.Longitude.Value);
+                    var planeDimension = GetPlaneDimension((float)flight.Latitude.Value, map.CameraPosition.Zoom);
+                    var image = CreateRotatedPlaneImage((float?)flight.Direction ?? 0);
+
                     if (planeOverlay == null)
                     {
-                        BitmapDescriptor image = BitmapDescriptorFactory.FromResource(Resource.Drawable.black_plane);
                         GroundOverlayOptions groundOverlayOptions = new GroundOverlayOptions()
-                            .Position(new LatLng((double)flight.Latitude.Value, (double)flight.Longitude.Value), GetPlaneDimension((float)flight.Latitude.Value, map.CameraPosition.Zoom))
+                            .Position(position, planeDimension)
                             .InvokeImage(image);
 
                         planeOverlay = map.AddGroundOverlay(groundOverlayOptions);
                     }
                     else
                     {
-                        planeOverlay.Position = new LatLng((double)flight.Latitude.Value, (double)flight.Longitude.Value);
+                        planeOverlay.Position = position;
+                        planeOverlay.SetImage(image);
+                        planeOverlay.SetDimensions(planeDimension);
                     }
                 }
             }
+        }
+
+        public BitmapDescriptor CreateRotatedPlaneImage(float angle)
+        {
+            var bitmap = BitmapFactory.DecodeResource(Resources, Resource.Drawable.black_plane);
+            bitmap = RotateBitmap(bitmap, 90);
+
+            BitmapDescriptor image = BitmapDescriptorFactory.FromBitmap(bitmap);
+
+            return image;
+        }
+
+        public static Bitmap RotateBitmap(Bitmap source, float angle)
+        {
+            Matrix matrix = new Matrix();
+            matrix.PostRotate(angle);
+            return Bitmap.CreateBitmap(source, 0, 0, source.Width, source.Height, matrix, true);
         }
 
         private void UpdateDetailPage()

@@ -18,6 +18,7 @@ namespace PlaneTracker.Shared.Models
         private const int BARO_ALTITUDE = 7;
         private const int ON_GORUND_ID = 8;
         private const int VELOCITY_ID = 9;
+        private const int DIRECTION_ID = 10;
         private const int GEO_ALTITUDE = 13;
         private const int SQUAWK_ID = 14;
 
@@ -33,6 +34,7 @@ namespace PlaneTracker.Shared.Models
         public bool OnGround { get; set; }
         public decimal? Velocity { get; set; }
         public string Squawk { get; set; }
+        public decimal? Direction { get; set; }
 
         public Flight()
         { }
@@ -49,11 +51,15 @@ namespace PlaneTracker.Shared.Models
         public void Update(Flight flight)
         {
             LastContact = flight.LastContact;
-            Latitude = flight.Latitude;
-            Longitude = flight.Longitude;
-            Altitude = flight.Altitude;
+            if(flight.Latitude != null)
+                Latitude = flight.Latitude;
+            if(flight.Longitude != null)
+                Longitude = flight.Longitude;
+            if(flight.Altitude != null)
+                Altitude = flight.Altitude;
             OnGround = flight.OnGround;
-            Velocity = flight.Velocity;
+            if(flight.Velocity != null)
+                Velocity = flight.Velocity;
             Squawk = flight.Squawk;
 
             Updated?.Invoke(this, EventArgs.Empty);
@@ -125,6 +131,7 @@ namespace PlaneTracker.Shared.Models
                 Altitude = TryParseDecimal(data[BARO_ALTITUDE], data[GEO_ALTITUDE]),
                 OnGround = Convert.ToBoolean(data[ON_GORUND_ID]),
                 Velocity = TryParseDecimal(data[VELOCITY_ID]),
+                Direction = TryParseDecimal(data[DIRECTION_ID]),
                 Squawk = data[SQUAWK_ID]
             };
         }
