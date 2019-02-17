@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using PlaneTracker.Shared;
 using PlaneTracker.Shared.Models;
 using PlaneTracker.Shared.Services;
 
@@ -70,7 +71,7 @@ namespace PlaneTracker
             detail.Add(flight.GetAltitude());
             
             if (flight.LastContact != null)
-                detail.Add($"{context.GetString(Resource.String.last_contact)} {flight.LastContact.Value.ToString("hh:mm")}");
+                detail.Add($"{context.GetString(Resource.String.last_contact)} {flight.LastContact.Value.ToString(Constants.TimeFormat)}");
 
             text2.Text = string.Join(", ", detail);
 

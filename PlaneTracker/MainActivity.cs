@@ -19,6 +19,7 @@ using PlaneTracker.Shared.Services;
 
 namespace PlaneTracker
 {
+    
     [Activity(Label = "@string/app_name",  MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {

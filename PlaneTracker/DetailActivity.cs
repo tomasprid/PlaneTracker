@@ -17,6 +17,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using PlaneTracker.Shared;
 using PlaneTracker.Shared.Services;
 using static Android.Gms.Maps.GoogleMap;
 using static Android.Views.View;
@@ -109,7 +110,7 @@ namespace PlaneTracker
         public BitmapDescriptor CreateRotatedPlaneImage(float angle)
         {
             var bitmap = BitmapFactory.DecodeResource(Resources, Resource.Drawable.black_plane);
-            bitmap = RotateBitmap(bitmap, 90);
+            bitmap = RotateBitmap(bitmap, angle);
 
             BitmapDescriptor image = BitmapDescriptorFactory.FromBitmap(bitmap);
 
@@ -130,12 +131,27 @@ namespace PlaneTracker
                 var flight = ApiService.Instance.Flights[ICAO24];
 
                 detailFragment.View.FindViewById<TextView>(Resource.Id.callsignLabel).Text = flight.Callsign;
+
+                detailFragment.View.FindViewById<TextView>(Resource.Id.lastContactLabel).Text = flight.LastContact.Value.ToString(Constants.TimeFormat);
+
                 detailFragment.View.FindViewById<TextView>(Resource.Id.stateLabel).Text = flight.OnGround ? GetString(Resource.String.on_ground) : GetString(Resource.String.in_air);
                 detailFragment.View.FindViewById<TextView>(Resource.Id.countryLabel).Text = flight.OriginCountry;
-                var altitude = flight.GetAltitude(GetString(Resource.String.meters, Resource.String.miles));
+                var altitude = flight.GetAltitude(GetString(Resource.String.meters, Resource.String.feets));
+
                 if (string.IsNullOrEmpty(altitude))
                     altitude = GetString(Resource.String.not_avalible);
                 detailFragment.View.FindViewById<TextView>(Resource.Id.altitudeLabel).Text = altitude;
+
+                var latitude = flight.Latitude.HasValue ? flight.Latitude.ToString() : string.Empty;
+                if (string.IsNullOrEmpty(latitude))
+                    latitude = GetString(Resource.String.not_avalible);
+                detailFragment.View.FindViewById<TextView>(Resource.Id.latitudeLabel).Text = latitude;
+
+                var longitude = flight.Latitude.HasValue ? flight.Longitude.ToString() : string.Empty;
+                if (string.IsNullOrEmpty(longitude))
+                    longitude = GetString(Resource.String.not_avalible);
+                detailFragment.View.FindViewById<TextView>(Resource.Id.longitudeLabel).Text = longitude;
+
                 var velocity = flight.GetVelocity();
                 if (string.IsNullOrEmpty(velocity))
                     velocity = GetString(Resource.String.not_avalible);
